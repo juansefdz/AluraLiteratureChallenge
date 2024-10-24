@@ -1,0 +1,12 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: alura_liter_container
+    restart: always
+    ports:
+      - "3307:3306" 
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: alura_liter_db
+      MYSQL_USER: alura
+      MYSQL_PASSWORD: alura
