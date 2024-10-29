@@ -1,22 +1,22 @@
 package com.juansefdz.LiterAlura.infraestructure.services;
 
-import com.juansefdz.LiterAlura.domain.entities.Book;
-import com.juansefdz.LiterAlura.domain.repositories.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.juansefdz.LiterAlura.infraestructure.api.GutendexApi;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
 
 @Service
 public class BookService {
-    @Autowired
-    private final BookRepository bookRepository;
+    private final GutendexApi gutendexApi;
 
-    public BookService(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    public BookService(GutendexApi gutendexApi) {
+        this.gutendexApi = gutendexApi;
     }
 
-    public List<Book> searchBooks(String title) {
-        return bookRepository.findByTitle(title);
+    public String searchBooksByTitle(String title) {
+        // Llama al método `getBooksData` del `GutendexApi` con el título ingresado
+        return gutendexApi.getBooksData(title);
     }
 }

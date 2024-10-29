@@ -1,6 +1,6 @@
 package com.juansefdz.LiterAlura;
 
-import com.juansefdz.LiterAlura.main.Main;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,7 +9,7 @@ public class LiterAluraApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LiterAluraApplication.class, args);
-		Main main = new Main();
+		com.juansefdz.LiterAlura.Main main = new com.juansefdz.LiterAlura.Main();
 		main.menu();
 	}
 

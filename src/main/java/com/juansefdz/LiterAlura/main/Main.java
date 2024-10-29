@@ -1,60 +1,70 @@
-package com.juansefdz.LiterAlura.main;
+package com.juansefdz.LiterAlura;
 
+import com.juansefdz.LiterAlura.api.strategies.*;
+import com.juansefdz.LiterAlura.infraestructure.api.GutendexApi;
+import com.juansefdz.LiterAlura.infraestructure.services.BookService;
+
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
-import com.juansefdz.LiterAlura.domain.repositories.BookRepository;
-import com.juansefdz.LiterAlura.infraestructure.api.GutendexApi;
-
 public class Main {
-   private Scanner keyboardOption = new Scanner(System.in);
-   private GutendexApi gutendexApi = new GutendexApi();
+    private final Scanner keyboardOption = new Scanner(System.in);
+    private final GutendexApi gutendexApi = new GutendexApi();
+    private final BookService bookService = new BookService(gutendexApi);
 
-   private final String URL_BASE = "https://gutendex.com/books/?search=";
-
-    private BookRepository bookRepository;
-
-
-   public Main (BookRepository bookRepository) {
-       this.bookRepository = bookRepository;
-   }
+    private final Map<Integer, MenuStrategy> strategies = new HashMap<>();
 
     public Main() {
-
+        strategies.put(1, new SearchBooksByTitleStrategy(bookService, keyboardOption));
+        strategies.put(2, new ListRegisteredBooksStrategy());
+        strategies.put(3, new ListRegisteredAuthorsStrategy());
+        strategies.put(4, new ListAuthorsAliveInYearStrategy(keyboardOption));
+        strategies.put(5, new ListBooksByLanguageStrategy(keyboardOption));
+        strategies.put(6, new ShowStatisticsStrategy());
+        strategies.put(7, new ShowTop10BooksStrategy());
+        strategies.put(8, new SearchAuthorByNameStrategy(keyboardOption));
+        strategies.put(9, new SearchDeceasedAuthorByYearStrategy(keyboardOption));
     }
 
     public void menu() {
-       int menuOption= -1;
-       while (menuOption != 0) {
-           System.out.println("""
-               1 - Search Books
-               2 - Find Book by Author
-               3 - Statistics
-               0 - Exit
-               """);
-           menuOption = keyboardOption.nextInt();
-           keyboardOption.nextLine();
+        int menuOption = -1;
+        while (menuOption != 0) {
+            System.out.println("""
+                *** LiterAlura ***
+                1. Search Book by Title
+                2. List Registered Books
+                3. List Registered Authors
+                4. List Authors Alive in a Given Year
+                5. List Books by Language
+                6. Generate Statistics
+                7. Top 10 Most Downloaded Books
+                8. Search Author by Name
+                9. Search Deceased Author by Year
+                0. Exit
+                Choose an option ==>
+                """);
 
-           switch (menuOption) {
-               case 1 -> searchBooksByTitle();
-               case 2 -> findBooksByAuthor();
-               case 3 -> showStatistics();
-               case 0 -> System.out.println("Exiting...");
-               default -> System.out.println("Invalid option. Please try again.");
-           }
-       } while (menuOption != 0);
-   }
+            menuOption = keyboardOption.nextInt();
+            keyboardOption.nextLine();
 
-    private void searchBooksByTitle() {
-        System.out.print("Enter the book title to search: ");
-        String title = keyboardOption.nextLine();
-    }
-    private void findBooksByAuthor() {
-        System.out.print("Enter the author's name to search: ");
-        String author = keyboardOption.nextLine();
-    }
-    private void showStatistics() {
-        System.out.println("Statistics");
+            if (menuOption == 0) {
+                System.out.println("Exiting...");
+                break;
+            }
+
+            MenuStrategy strategy = strategies.get(menuOption);
+            if (strategy != null) {
+                strategy.execute();
+            } else {
+                System.out.println("Invalid option. Please try again.");
+            }
+        }
     }
 
+    public static void main(String[] args) {
+        Main main = new Main();
+        main.menu();
+    }
 }
-
