@@ -12,6 +12,6 @@ public class ListBooksByLanguageStrategy implements MenuStrategy {
     public void execute() {
         System.out.print("Enter the language to filter books: ");
         String language = keyboardOption.nextLine();
-        // Lógica para recuperar y mostrar libros en el idioma especificado
+        System.out.println(language);
     }
 }

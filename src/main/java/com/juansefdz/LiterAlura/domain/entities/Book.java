@@ -1,20 +1,21 @@
 package com.juansefdz.LiterAlura.domain.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
+import java.util.List;
 
 @Entity
-@Table (name = "books")
-
+@Table(name = "books")
+@Data
 public class Book {
-
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String author;
-    private String description;
-    private String language;
-    private Integer pages;
-    private String format;
-    private String urlBook;
+    private List<String> subjects;
+    private List<String> bookshelves;
+    private List<String> languages;
+    private List<String> author;
+
 }

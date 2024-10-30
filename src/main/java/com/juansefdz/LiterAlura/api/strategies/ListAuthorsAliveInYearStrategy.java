@@ -13,6 +13,7 @@ public class ListAuthorsAliveInYearStrategy implements MenuStrategy{
         System.out.print("Enter the year to filter authors: ");
         int year = keyboardOption.nextInt();
         keyboardOption.nextLine();
-        // Lógica para listar autores vivos en el año especificado
+        System.out.println(year);
+      
     }
 }

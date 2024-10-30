@@ -1,31 +1,32 @@
-package com.juansefdz.LiterAlura;
+package com.juansefdz.LiterAlura.Main;
 
 import com.juansefdz.LiterAlura.api.strategies.*;
 import com.juansefdz.LiterAlura.infraestructure.api.GutendexApi;
 import com.juansefdz.LiterAlura.infraestructure.services.BookService;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Main {
+@Component
+public class Menu {
     private final Scanner keyboardOption = new Scanner(System.in);
-    private final GutendexApi gutendexApi = new GutendexApi();
-    private final BookService bookService = new BookService(gutendexApi);
-
+    @SuppressWarnings("unused")
+    private final BookService bookService;
     private final Map<Integer, MenuStrategy> strategies = new HashMap<>();
 
-    public Main() {
+    
+    public Menu(GutendexApi gutendexApi, BookService bookService) {
+        this.bookService = bookService;
+
         strategies.put(1, new SearchBooksByTitleStrategy(bookService, keyboardOption));
         strategies.put(2, new ListRegisteredBooksStrategy());
         strategies.put(3, new ListRegisteredAuthorsStrategy());
         strategies.put(4, new ListAuthorsAliveInYearStrategy(keyboardOption));
         strategies.put(5, new ListBooksByLanguageStrategy(keyboardOption));
         strategies.put(6, new ShowStatisticsStrategy());
-        strategies.put(7, new ShowTop10BooksStrategy());
-        strategies.put(8, new SearchAuthorByNameStrategy(keyboardOption));
-        strategies.put(9, new SearchDeceasedAuthorByYearStrategy(keyboardOption));
     }
 
     public void menu() {
@@ -39,32 +40,30 @@ public class Main {
                 4. List Authors Alive in a Given Year
                 5. List Books by Language
                 6. Generate Statistics
-                7. Top 10 Most Downloaded Books
-                8. Search Author by Name
-                9. Search Deceased Author by Year
+                
                 0. Exit
                 Choose an option ==>
                 """);
 
-            menuOption = keyboardOption.nextInt();
-            keyboardOption.nextLine();
+            try {
+                menuOption = keyboardOption.nextInt();
+                keyboardOption.nextLine();
 
-            if (menuOption == 0) {
-                System.out.println("Exiting...");
-                break;
-            }
+                if (menuOption == 0) {
+                    System.out.println("Exiting...");
+                    break;
+                }
 
-            MenuStrategy strategy = strategies.get(menuOption);
-            if (strategy != null) {
-                strategy.execute();
-            } else {
-                System.out.println("Invalid option. Please try again.");
+                MenuStrategy strategy = strategies.get(menuOption);
+                if (strategy != null) {
+                    strategy.execute();
+                } else {
+                    System.out.println("Invalid option. Please try again.");
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                keyboardOption.nextLine(); 
             }
         }
-    }
-
-    public static void main(String[] args) {
-        Main main = new Main();
-        main.menu();
     }
 }
