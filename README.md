@@ -7,6 +7,20 @@ En este emocionante desafío de programación, te invitamos a construir tu propi
 ## OBJETIVO: 
 Desarrollar un Catálogo de Libros que ofrezca interacción textual (vía consola) con los usuarios, proporcionando al menos 5 opciones de interacción. Los libros se buscarán a través de una API específica. La información sobre la API y las opciones de interacción con el usuario se detallará en la columna "Backlog"/"Listo para iniciar".
 
+## CARACTERISTICAS
+ 1. Buscar libro por título
+ 2. Lista de libros registrados
+ 3. Lista de autores registrados
+ 4. Lista de autores vivos en un año determinado
+ 5. Lista de libros por idioma
+ 6. Generar estadísticas
+
+## TECNOLOGIA USADA
+- **Backend:** Java y SpringBoot
+- **Base de datos:** Mysql 
+- **API externa:** Guntendex
+- **docker**
+
 ## DESAFIO EXTRA
  hay diversas funcionalidades interesantes que puedes explorar:
 
