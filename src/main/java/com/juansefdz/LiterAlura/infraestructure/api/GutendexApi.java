@@ -2,6 +2,8 @@ package com.juansefdz.LiterAlura.infraestructure.api;
 
 import com.google.gson.Gson;
 import com.juansefdz.LiterAlura.api.dto.response.GutendexResponse;
+
+
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -12,10 +14,12 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+
+
 @Service
 public class GutendexApi {
 
-    private static final String BASE_URL = "https://gutendex.com/books/?search=";
+    private static final String BASE_URL = "https://gutendex.com/books/";
     private final Gson gson;
 
     public GutendexApi() {
@@ -25,7 +29,7 @@ public class GutendexApi {
     public GutendexResponse searchBooksByTitle(String searchTerm) {
         try {
             String encodedSearchTerm = URLEncoder.encode(searchTerm, StandardCharsets.UTF_8);
-            String url = BASE_URL + encodedSearchTerm;
+            String url = BASE_URL + "?search=" + encodedSearchTerm;
 
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
@@ -39,6 +43,5 @@ public class GutendexApi {
             throw new RuntimeException("Error al obtener datos de Gutendex API", e);
         }
     }
+
 }
-
-

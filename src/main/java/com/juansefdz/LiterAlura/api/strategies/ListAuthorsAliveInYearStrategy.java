@@ -14,6 +14,10 @@ public class ListAuthorsAliveInYearStrategy implements MenuStrategy{
         int year = keyboardOption.nextInt();
         keyboardOption.nextLine();
         System.out.println(year);
+
+        
+        System.out.println("\nPress Enter to return to the main menu...");
+        keyboardOption.nextLine();
       
     }
 }

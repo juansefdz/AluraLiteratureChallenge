@@ -2,8 +2,9 @@ package com.juansefdz.LiterAlura.Main;
 
 import com.juansefdz.LiterAlura.api.strategies.*;
 import com.juansefdz.LiterAlura.infraestructure.api.GutendexApi;
+import com.juansefdz.LiterAlura.infraestructure.services.AuthorService;
 import com.juansefdz.LiterAlura.infraestructure.services.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -13,19 +14,21 @@ import java.util.Scanner;
 @Component
 public class Menu {
     private final Scanner keyboardOption = new Scanner(System.in);
+    
     @SuppressWarnings("unused")
     private final BookService bookService;
+ 
     private final Map<Integer, MenuStrategy> strategies = new HashMap<>();
 
     
-    public Menu(GutendexApi gutendexApi, BookService bookService) {
+    public Menu(GutendexApi gutendexApi, BookService bookService, AuthorService authorService) {
         this.bookService = bookService;
 
         strategies.put(1, new SearchBooksByTitleStrategy(bookService, keyboardOption));
-        strategies.put(2, new ListRegisteredBooksStrategy());
-        strategies.put(3, new ListRegisteredAuthorsStrategy());
+        strategies.put(2, new ListRegisteredBooksStrategy(bookService));
+        strategies.put(3, new ListRegisteredAuthorsStrategy(authorService));
         strategies.put(4, new ListAuthorsAliveInYearStrategy(keyboardOption));
-        strategies.put(5, new ListBooksByLanguageStrategy(keyboardOption));
+        strategies.put(5, new ListBooksByLanguageStrategy(keyboardOption, bookService));
         strategies.put(6, new ShowStatisticsStrategy());
     }
 

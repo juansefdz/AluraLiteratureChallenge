@@ -16,6 +16,8 @@ public class Book {
     private List<String> subjects;
     private List<String> bookshelves;
     private List<String> languages;
-    private List<String> author;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Author> authors;
 
 }

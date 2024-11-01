@@ -5,7 +5,6 @@ import com.juansefdz.LiterAlura.infraestructure.services.BookService;
 
 import java.util.List;
 import java.util.Scanner;
-
 public class SearchBooksByTitleStrategy implements MenuStrategy {
     private final BookService bookService;
     private final Scanner keyboardOption;
@@ -19,10 +18,18 @@ public class SearchBooksByTitleStrategy implements MenuStrategy {
     public void execute() {
         System.out.print("Enter the book title to search: ");
         String title = keyboardOption.nextLine();
-        List<BookResponse> result = bookService.searchBooksByTitle(title);System.out.println("Book searched: " + title + "\n" + result.toString());;
-        System.out.println("Book searched: " + title + "\n" + result);
+        
+        List<BookResponse> result = bookService.searchBooksByTitle(title);
+    
+        System.out.println("Book searched: " + title);
+        if (result.isEmpty()) {
+            System.out.println("No books found with that title.");
+        } else {
+            System.out.println(result); 
+        }
+    
         System.out.println("\nPress Enter to return to the main menu...");
         keyboardOption.nextLine();
-
     }
+    
 }
